@@ -1,14 +1,10 @@
-<<<<<<< HEAD
 ## JM天堂图片解密复原
-
 ##### decode.html可直接打开演示。
-
 ##### 具体过程在decodeImage()函数中
-
-#### 
+### 已添加对禁漫天堂的扩展支持（包括图片解码）
+### 接下来对[源仓库}(https://www.yckceo.com/)展开全面支持
 
 ##### 完善源仓库计划，实现Web端聚合漫画
-=======
 <img align="right" width="300" src="./public/miru.png" alt="Miru 看板娘"/>
 
 # <img src="./public/logo.svg" width="100">
@@ -36,4 +32,3 @@
 ![image](https://user-images.githubusercontent.com/44718819/230914961-09c730d3-6ef2-4c16-8811-e225574d8b62.png)
 
 
->>>>>>> b3de4172679bb6fd9d0d885b0455d9a2f01bbcfc
