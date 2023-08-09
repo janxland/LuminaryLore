@@ -38,33 +38,13 @@ const MangaPlayer = observer(() => {
         console.log("开始",decodeUrls,data);
         
         setDecodeUrls(decodeTopUrls[currentURL]?[...decodeTopUrls[currentURL]]  : [...data.urls])
-        if((extension as any).decodeImage && !playerStore.mini && decodeTopUrls[currentURL] == undefined){
-            currentInterval = setInterval(() => {
-                console.log("每秒更新");
-                setDecodeUrls([...decodeUrls])
-            }, 1000); 
-        }
-        const updateUrl = (url: any,index: number) => {
-            if(playerStore.mini || decodeTopUrls[currentURL] != undefined) return;
-            extension && (extension as any).decodeImage && (extension as any).decodeImage(url,function(newUrl:string){
-                if(decodeUrls){
-                    if(decodeUrls[index]  == newUrl) return;
-                    decodeUrls[index] = newUrl;
-                    if(index == data.urls.length - 1){
-                        clearInterval(currentInterval)
-                        setDecodeUrls([...decodeUrls]);
-                        console.log("解码完毕！",data);
-                        decodeTopUrls[currentURL] = [...decodeUrls];
-                        
-                    } else {
-                        updateUrl(data.urls[index+1],index+1)
-                    }
-                }
-               
-            });
-            
-        };
-        updateUrl(data.urls[0],0)
+        // if((extension as any).decodeImage && !playerStore.mini && decodeTopUrls[currentURL] == undefined){
+        //     clearInterval(currentInterval)
+        //     currentInterval = setInterval(() => {
+        //         console.log("每秒更新");
+        //         setDecodeUrls([...decodeUrls])
+        //     }, 1500); 
+        // }
         historyStore.addHistory({
             package: pkg,
             url: pageUrl,
@@ -88,6 +68,27 @@ const MangaPlayer = observer(() => {
     if (type !== "manga") {
         return null;
     }
+
+    const updateUrl:any = (url: any, index: number,image: EventTarget | undefined) => {
+        if(playerStore.mini || decodeTopUrls[currentURL] != undefined) return;
+        extension && (extension as any).decodeImage && (extension as any).decodeImage(url,function(newUrl:string){
+            if(decodeUrls[index]  == newUrl){
+                setDecodeUrls([...decodeUrls]);
+                return;
+            }
+            decodeUrls[index] = newUrl;
+            setDecodeUrls([...decodeUrls]);
+            if(index == data.urls.length - 1){
+                // clearInterval(currentInterval)
+                setDecodeUrls([...decodeUrls]);
+                console.log("解码完毕！",data);
+                decodeTopUrls[currentURL] = [...decodeUrls];
+            } else {
+                // updateUrl(data.urls[index+1],index)
+            }
+        });
+        
+    };
     return (
         
         <>
@@ -125,6 +126,8 @@ const MangaPlayer = observer(() => {
                                     className="m-auto"
                                     src={url}
                                     alt="Manga"
+                                    onClick={() => updateUrl(url,index)}
+                                    onLoad={(event) => updateUrl(url,index,event.target)}
                                     referrerPolicy="no-referrer"
                                 />
                             </LazyElement>

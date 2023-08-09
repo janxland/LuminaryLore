@@ -265,7 +265,8 @@ attr(doc,attrStr){
       },
     };
   }
-  async decodeImage(photoUrl , asyncFun) {
+  async decodeImage(photoUrl , asyncFun ,image = undefined) {
+    let thi = this;
     const regexString = "\\/(\\d+)\\/(\\d+)\\.webp";
     const matches = photoUrl.match(regexString);
     let chapterId = matches?.[1];
@@ -283,22 +284,37 @@ attr(doc,attrStr){
       let mod; chapterId >= 421926 ? mod = 8 : mod = 10;
       const rule = [2, 4, 6, 8, 10, 12, 14, 16, 18, 20];
       let piece; chapterId >= 268850? piece= rule[c % mod] : piece=10;
-      const response = await fetch(photoUrl);
-      const buffer = await response.arrayBuffer();
-      const uint8Array = new Uint8Array(buffer);
-      const blob = new Blob([uint8Array], { type: 'image/webp' });
-      const blobUrl = URL.createObjectURL(blob);
-      outputImage.src = blobUrl;
-      let thi = this
-      outputImage.onload = async function() {
-        asyncFun(await thi.reverseImage(outputImage, chapterId, piece));
-        outputImage.onload = null;
-      };
+      if(image){
+        // const processedBlob = await new Promise((resolve) => {
+        //   const canvas = document.createElement('canvas');
+        //   const ctx = canvas.getContext('2d');
+        //   canvas.width = image.width;
+        //   canvas.height = image.height;
+        //   ctx.drawImage(image, 0, 0);
+        //   canvas.toBlob((blob) => {
+        //     resolve(blob);
+        //   }, 'image/webp');
+        // });
+        // const blobUrl = URL.createObjectURL(processedBlob);
+        // outputImage.src = blobUrl;
+        return await thi.reverseImage(image, chapterId, piece)
+      } else {
+        const response = await fetch(photoUrl);
+        const buffer = await response.arrayBuffer();
+        const uint8Array = new Uint8Array(buffer);
+        const blob = new Blob([uint8Array], { type: 'image/webp' });
+        const blobUrl = URL.createObjectURL(blob);
+        outputImage.src = blobUrl;
+        outputImage.onload = async function() {
+          asyncFun(await thi.reverseImage(outputImage, chapterId, piece));
+          outputImage.onload = null;
+        };
+      }
     } catch (error) {
       console.error('解密图片失败:', error);
     }
   }
-reverseImage(bufferedImage, chapterId, piece) {
+reverseImage(bufferedImage, chapterId, piece ) {
     if (piece === 1) {
       return bufferedImage;
     }

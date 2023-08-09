@@ -2,7 +2,7 @@
 ##### decode.html可直接打开演示。
 ##### 具体过程在decodeImage()函数中
 ### 已添加对禁漫天堂的扩展支持（包括图片解码）
-### 接下来对[源仓库}(https://www.yckceo.com/)展开全面支持
+### 接下来对[源仓库](https://www.yckceo.com/)展开全面支持
 
 ##### 完善源仓库计划，实现Web端聚合漫画
 <img align="right" width="300" src="./public/miru.png" alt="Miru 看板娘"/>
