@@ -11,10 +11,10 @@ import LoadingImg from "../common/LoadingImg";
 import ErrorView from "../ErrorView";
 import LoadingBox from "../LoadingBox";
 import Control from "./control";
-let decodeDone = false;
+let autoDownload = false;
 let currentURL: string ;
 let currentInterval: string | number | NodeJS.Timeout | undefined ;
-let decodeTopUrls: { [key: string]: string[] } = {};
+const decodeTopUrls: { [key: string]: string[] } = {};
 const MangaPlayer = observer(() => {
     const { extensionStore, historyStore, playerStore } = useRootStore();
     const { pkg, pageUrl, title, chapter, url, type } = playerStore.currentPlay;
@@ -27,7 +27,10 @@ const MangaPlayer = observer(() => {
             return extension?.watch(url) as MangaWatch 
         },
     });
-    let [decodeUrls, setDecodeUrls] = useState(data?.urls || []);
+    const [decodeUrls, setDecodeUrls] = useState(data?.urls || []);
+    extension?.getSetting("autoDownload").then((value)=>{
+        autoDownload = value == "true";
+    })
     
     useEffect(() => {
         if (!data || type !== "manga") {
@@ -35,9 +38,7 @@ const MangaPlayer = observer(() => {
         }
         playerStore.toggleFloatPlayList(true);
         playerStore.toggleShowPlayList(false);
-        console.log("开始",decodeUrls,data);
-        
-        setDecodeUrls(decodeTopUrls[currentURL]?[...decodeTopUrls[currentURL]]  : [...data.urls])
+        console.log("开始",data,{decodeUrls});
         // if((extension as any).decodeImage && !playerStore.mini && decodeTopUrls[currentURL] == undefined){
         //     clearInterval(currentInterval)
         //     currentInterval = setInterval(() => {
@@ -45,6 +46,8 @@ const MangaPlayer = observer(() => {
         //         setDecodeUrls([...decodeUrls])
         //     }, 1500); 
         // }
+        setDecodeUrls([...decodeUrls])
+        setDecodeUrls(decodeTopUrls[currentURL]?[...decodeTopUrls[currentURL]]:[...data.urls])
         historyStore.addHistory({
             package: pkg,
             url: pageUrl,
@@ -68,27 +71,39 @@ const MangaPlayer = observer(() => {
     if (type !== "manga") {
         return null;
     }
-
-    const updateUrl:any = (url: any, index: number,image: EventTarget | undefined) => {
+    const updateUrl:any = (url: any, index: number,image: EventTarget | undefined ) => {
         if(playerStore.mini || decodeTopUrls[currentURL] != undefined) return;
-        extension && (extension as any).decodeImage && (extension as any).decodeImage(url,function(newUrl:string){
-            if(decodeUrls[index]  == newUrl){
-                setDecodeUrls([...decodeUrls]);
-                return;
-            }
+        if(decodeUrls[index]?.startsWith("data:")) return
+        (extension as any).decodeImage && (extension as any).decodeImage(url,function(newUrl:string) {
+            if(decodeUrls[index] == newUrl) return
             decodeUrls[index] = newUrl;
             setDecodeUrls([...decodeUrls]);
-            if(index == data.urls.length - 1){
+            if(decodeUrls.every((element, index) => element !== data.urls[index])){
                 // clearInterval(currentInterval)
                 setDecodeUrls([...decodeUrls]);
                 console.log("解码完毕！",data);
                 decodeTopUrls[currentURL] = [...decodeUrls];
+                if(autoDownload) extension && (extension as any).download && (extension as any).download([...decodeUrls],title);
             } else {
-                // updateUrl(data.urls[index+1],index)
+                
             }
         });
         
     };
+    updateUrl(data.urls[0],0,null)
+    let handleDownload = function(){
+        console.log(extension);
+        
+       if((extension as any).download) {
+        console.log("开始下载啦！");
+        (extension as any).download([...decodeUrls],title);
+        console.log("下载完成啦！");
+        
+       } else {
+        console.log("下载失败了")
+        alert('没有该实现功能！');
+       }
+    }
     return (
         
         <>
@@ -126,13 +141,21 @@ const MangaPlayer = observer(() => {
                                     className="m-auto"
                                     src={url}
                                     alt="Manga"
-                                    onClick={() => updateUrl(url,index)}
-                                    onLoad={(event) => updateUrl(url,index,event.target)}
+                                    onMouseEnter={() => updateUrl(url,index)}
+                                    onLoad={(event) => {updateUrl(decodeUrls[index++],index++,event.target)}}
                                     referrerPolicy="no-referrer"
                                 />
                             </LazyElement>
                         );
                     })}
+                    <Button
+                        className="ml-2"
+                        onClick={() => {
+                            handleDownload();
+                        }}
+                    >
+                        <ChevronDown />
+                    </Button>
                 </div>
                 {/* mini 时显示的按钮 */}
                 {playerStore.mini && (

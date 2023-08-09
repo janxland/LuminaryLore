@@ -3,9 +3,9 @@
   "version": "2.0.0-Alpha.12",
   "private": true,
   "scripts": {
-    "dev": "next dev -p 8080",
+    "dev": "next dev -p 9000",
     "build": "next build",
-    "start": "next start -p 8080",
+    "start": "next start -p 9000",
     "lint": "next lint"
   },
   "dependencies": {

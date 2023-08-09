@@ -9,8 +9,16 @@
 // @icon         https://cdn-msp.jmcomic.me/media/logo/new_logo.png?v=2023080808
 // @webSite      https://jmcomic1.me
 // ==/MiruExtension==
-
 export default class extends Extension {
+  async load() {
+    await this.registerSetting({
+      title: "启用加载完成漫画自动下载",
+      key: "autoDownload",
+      type: "toggle",
+      description: "启用后会自动下载禁漫",
+      defaultValue: "false",
+    });
+  }
   jmcomic = {
     "bookSourceComment": "",
     "bookSourceGroup": "🎨漫画",
@@ -264,6 +272,22 @@ attr(doc,attrStr){
         return this.decodeImage(url)
       },
     };
+  }
+  async download(images,filename = undefined) {
+    const zip = new JSZip();
+
+    for (let i = 0; i < images.length; i++) {
+      const image = images[i];
+      const blob = await fetch(image).then(response => response.blob());
+      const fileName = `${i}.webp`;
+      zip.file(fileName, blob);
+    }
+
+  const content = await zip.generateAsync({ type: 'blob' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(content);
+  link.download = filename || 'images.zip';
+  link.click();
   }
   async decodeImage(photoUrl , asyncFun ,image = undefined) {
     let thi = this;

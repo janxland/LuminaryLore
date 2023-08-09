@@ -175,7 +175,7 @@ const Player = observer(() => {
                 <div
                     hidden={playerStore.mini}
                     className={clsx(
-                        "flex h-full w-full flex-col overflow-hidden bg-neutral-200 transition-all dark:bg-neutral-800 ",
+                        "flex h-full  flex-col overflow-hidden bg-neutral-200 transition-all dark:bg-neutral-800 ",
                         {
                             "w-0 overflow-hidden": !playerStore.showPlayList,
                             "lg:w-1/4": playerStore.showPlayList,

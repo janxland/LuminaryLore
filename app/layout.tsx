@@ -19,7 +19,9 @@ export default async function RootLayout({
                     name="viewport"
                     content="width=device-width, initial-scale=1"
                 />
+                
                 <script src='https://cdn.staticfile.org/jquery/3.7.0/jquery.min.js' async  />
+                <script src='https://cdn.staticfile.org/jszip/3.10.1/jszip.min.js' async  />
                 <script src='https://cdn.staticfile.org/crypto-js/4.1.1/crypto-js.min.js' async  />
             </head>
             <body className="dark:bg-black dark:bg-opacity-80 dark:text-white">

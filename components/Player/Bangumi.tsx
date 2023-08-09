@@ -244,7 +244,7 @@ const BangumiPlayer = observer(() => {
             if (!art) {
                 return;
             }
-            art.autoHeight();
+            // art.autoHeight;
         });
     }, [data]);
 
