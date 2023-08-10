@@ -11,8 +11,66 @@
 // ==/MiruExtension==
 
 export default class extends Extension {
-    jmcomic1 = {
-        
+  jmcomic0 = {
+      "bookSourceComment": "",
+      "bookSourceGroup": "🎨美女图",
+      "bookSourceName": "🎨尤物网",
+      "bookSourceType": 0,
+      "bookSourceUrl": "https://www.youwu.cc/",
+      "customOrder": 37,
+      "enabled": true,
+      "enabledExplore": true,
+      "exploreUrl": "最新::https://www.youwu.cc/new/\n推荐::https://www.youwu.cc/top/\n热门:\/rm.html\n日排行榜::\/albums?o=mv&t=t?page={{key}}\n最新A漫::\/albums?o=mr?page={{key}}\n同人::\/albums\/doujin?page={{key}}\n\n单行本::\/albums\/single?o=mr?page={{key}}\n短篇::\/albums\/short?page={{key}}\n其他::\/albums\/another?page={{key}}\n韩漫::\/albums\/hanman?page={{key}}\n美漫::\/albums\/meiman?page={{key}}\ncosplay::\/albums\/another\/sub\/cosplay?page={{key}}",
+      "lastUpdateTime": 1651214216611,
+      "respondTime": 180000,
+      "ruleBookInfo": {
+          "coverUrl": "class.photo.0@tag.img.0@src",
+          "init": "",
+          "intro": "tag.h2.0@text",
+          "kind": "class.data-count.0@@text",
+          "name": "tag.h2.0@text"
+      },
+      "ruleContent": {
+          "items":"class.photo.0@tag.img@src",
+          "content":"class.photo",
+          "imageStyle": "Full",
+          "decodeImage": false
+      },
+      "ruleExplore": {
+          "bookList": "class.photo@tag.ul.0@tag.a",
+          "bookUrl": "href",
+          "coverUrl": "tag.img.0@src",
+          "intro": "class.title@text",
+          "kind": "class.title@text",
+          "name": "class.title@text"
+      },
+      "ruleSearch": {
+          "bookList": "class.list@class.node@class.sousuo",
+          "playNum":"class.text-white@text",
+          "bookUrl": "tag.a.0@href",
+          "coverUrl": "{{bookSourceUrl}}{{cover}}",
+          "kind": "class.description@tag.p.1@text",
+          "name": "tag.a.0@text",
+          "id": "\\/album\\/(.*?)\\/"
+      },
+      "ruleToc": {
+          "chapterList": "class.page.0@tag.a",
+          "chapterName": "text",
+          "chapterUrl": "href"
+      },
+      "searchUrl": "https://www.xrmn02.cc/plus/search/index.asp?keyword={{key}}&searchtype=titlekeywords&p={{page}}",
+      "contentUrl":"https:\/www.xrmn02.cc\/photo\/${id}",
+      "weight": 0,
+      "cover":function(option){
+        var regex = /\/(\d+)\.html/;
+        var match = option?.url.match(regex);
+        if (match && match[1]) {
+        var dynamicValue =  match[1].slice(4);
+            return `/UploadFile/pic/${dynamicValue}.jpg`
+        } else {
+            return "/UploadFile/pic/13607.jpg"
+        }
+      }
     }
     jmcomic = {
       "bookSourceComment": "",
@@ -37,7 +95,7 @@ export default class extends Extension {
           "items":"class.content_left@tag.img@src",
           "content":"class.content_left",
           "imageStyle": "Full",
-          "decodeImage": true
+          "decodeImage": false
       },
       "ruleExplore": {
           "bookList": "class.i_list list_n2",
@@ -193,16 +251,18 @@ export default class extends Extension {
     }
   
     async latest(page) {
-      const menuRegex = /([^:]+)::([^:\n]+)/g;
-      let menu = {};
+      const regex = /(.+?)::(.+)/g;
+      const menu = {};
       let match;
-      while ((match = menuRegex.exec(this.jmcomic.exploreUrl)) !== null) {
-        const menuName = match[1].trim();
-        const menuUrl = match[2].trim();
-        menu[menuName] = menuUrl;
+
+      while ((match = regex.exec(this.jmcomic.exploreUrl)) !== null) {
+          const key = match[1].trim();
+          const value = match[2].trim();
+          menu[key] = value;
       }
+      let nUrl = menu["最新"].startsWith("http") ? menu["最新"] : `${this.jmcomic.bookSourceUrl}${menu["最新"]}`;
       const res = await this.request(
-        `/api/scrape?url=${this.jmcomic.bookSourceUrl}${menu["最新"].replace("{{page}}",page)}`,
+        `/api/scrape?url=${nUrl.replace("{{page}}",page)}`,
       );
       let doc = $(jQuery.parseHTML(res))
       let items = this.selector(doc,this.jmcomic.ruleExplore.bookList);
@@ -244,8 +304,9 @@ export default class extends Extension {
     }
   
     async detail(url) {
+      let nUrl = url.startsWith("http") ? url : `${this.jmcomic.bookSourceUrl}${url}`;
       const res = await this.request(
-        `/api/scrape?url=${this.jmcomic.bookSourceUrl}${url}`,
+        `/api/scrape?url=${nUrl}`,
       );
       let item = $(jQuery.parseHTML(res))
       let chapterItems = this.selector(item,this.jmcomic.ruleToc.chapterList);
@@ -273,8 +334,9 @@ export default class extends Extension {
   
     async watch(url) {
       let thi = this;
+      let nUrl = url?.startsWith("http") ? url : `${this.jmcomic.bookSourceUrl}${url}`;
       const res = await this.request(
-        `/api/scrape?url=${this.jmcomic.bookSourceUrl}${url}`,
+        `/api/scrape?url=${nUrl}`,
       );
       let images0 = this.attr($(jQuery.parseHTML(res)),this.jmcomic.ruleContent.items).toArray()
       let urls = images0.map(function(link) {
