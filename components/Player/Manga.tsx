@@ -14,6 +14,7 @@ import Control from "./control";
 let autoDownload = false;
 let currentURL: string ;
 let currentInterval: string | number | NodeJS.Timeout | undefined ;
+// 保存已经加载完成的图。
 const decodeTopUrls: { [key: string]: string[] } = {};
 const MangaPlayer = observer(() => {
     const { extensionStore, historyStore, playerStore } = useRootStore();
@@ -38,16 +39,8 @@ const MangaPlayer = observer(() => {
         }
         playerStore.toggleFloatPlayList(true);
         playerStore.toggleShowPlayList(false);
-        console.log("开始",data,{decodeUrls});
-        // if((extension as any).decodeImage && !playerStore.mini && decodeTopUrls[currentURL] == undefined){
-        //     clearInterval(currentInterval)
-        //     currentInterval = setInterval(() => {
-        //         console.log("每秒更新");
-        //         setDecodeUrls([...decodeUrls])
-        //     }, 1500); 
-        // }
-        setDecodeUrls([...decodeUrls])
         setDecodeUrls(decodeTopUrls[currentURL]?[...decodeTopUrls[currentURL]]:[...data.urls])
+        console.log("重新获取链接", { urls:data.urls , decodeUrls });
         historyStore.addHistory({
             package: pkg,
             url: pageUrl,
@@ -71,14 +64,16 @@ const MangaPlayer = observer(() => {
     if (type !== "manga") {
         return null;
     }
-    const updateUrl:any = (url: any, index: number,image: EventTarget | undefined ) => {
-        if(playerStore.mini || decodeTopUrls[currentURL] != undefined) return;
-        if(decodeUrls[index]?.startsWith("data:")) return
-        (extension as any).decodeImage && (extension as any).decodeImage(url,function(newUrl:string) {
+    console.log("重新渲染",currentURL);
+    let decodeImage = function(url: any, index: number,image: EventTarget | undefined ,autoLoad = false) {
+        if(index > data.urls.length - 1) return;
+        (extension as any).decodeImage && (extension as any).decodeImage(data.urls[index],function(newUrl:string) {
+            if(autoLoad) decodeImage(0,++index,undefined,autoLoad)
             if(decodeUrls[index] == newUrl) return
             decodeUrls[index] = newUrl;
             setDecodeUrls([...decodeUrls]);
-            if(decodeUrls.every((element, index) => element !== data.urls[index])){
+            decodeTopUrls[currentURL] = [...decodeUrls];
+            if(decodeUrls.every((element, index) => element.startsWith("data:"))){
                 // clearInterval(currentInterval)
                 setDecodeUrls([...decodeUrls]);
                 console.log("解码完毕！",data);
@@ -88,21 +83,32 @@ const MangaPlayer = observer(() => {
                 
             }
         });
-        
+    }
+    const updateUrl:any = (url: any, index: number,image: EventTarget | undefined ,autoLoad = false) => {
+        if(playerStore.mini && index!=0 || index > data.urls.length - 1) return;
+        if((decodeUrls[index]?.startsWith("data:"))) return
+        decodeImage(url, index,image,autoLoad)
     };
-    updateUrl(data.urls[0],0,null)
-    let handleDownload = function(){
-        console.log(extension);
-        
-       if((extension as any).download) {
-        console.log("开始下载啦！");
-        (extension as any).download([...decodeUrls],title);
-        console.log("下载完成啦！");
-        
-       } else {
-        console.log("下载失败了")
-        alert('没有该实现功能！');
-       }
+    updateUrl(data.urls[0],0,null,false)
+    let handleDownload = async function(){
+        let awaitDownload: string | number | NodeJS.Timeout | undefined ;
+        if((extension as any).download) {
+            console.log("正在重新检查解码");
+            decodeImage(0,0,undefined,true);
+            clearInterval(awaitDownload)
+            awaitDownload = setInterval(()=>{
+                if(decodeUrls.every((element, index) => element.startsWith("data:"))){
+                    console.log("开始下载啦！");
+                    (extension as any).download([...decodeUrls],title);
+                    console.log("下载完成啦！");
+                    clearInterval(awaitDownload)
+                }
+            },1000)
+
+        } else {
+            console.log("下载失败了")
+            alert('没有该实现功能！');
+        }
     }
     return (
         
