@@ -58,9 +58,9 @@ services:
         timeout: 30
         caPort: 9000
         layers:
-          - acs:fc:${vars.region}:official:layers/Nodejs16/versions/1
+          - acs:fc:${vars.region}:official:layers/Nodejs18/versions/1
         environmentVariables:
-          PATH: /opt/nodejs16/bin:/usr/local/bin/apache-maven/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/ruby/bin
+          PATH: /opt/Nodejs18/bin:/usr/local/bin/apache-maven/bin:/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/ruby/bin
         customRuntimeConfig:
           command:
             - npm
