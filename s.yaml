@@ -55,6 +55,7 @@ services:
         codeUri: './'
         runtime: custom
         cpu: 0.45
+        diskSize: 512
         memorySize: 512
         timeout: 30
         caPort: 9000
