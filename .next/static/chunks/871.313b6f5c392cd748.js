@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[871],{2871:function(e){e.exports=JSON.parse('{"home":"首页","search":"探索","extensions":"扩展","settings":"设置"}')}}]);
