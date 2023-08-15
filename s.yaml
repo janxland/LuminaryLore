@@ -52,7 +52,7 @@ services:
         name: ${vars.functionName}
         description: 'Serverless Devs Web Framework Function'
         codeUri: './'
-        runtime: nodejs16
+        runtime: custom
         cpu: 0.45
         diskSize: 512
         memorySize: 512
