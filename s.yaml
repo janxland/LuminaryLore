@@ -65,7 +65,7 @@ services:
           command:
             - npm
             - run
-            - prod
+            - start
       triggers:
         - name: httpTrigger
           type: http

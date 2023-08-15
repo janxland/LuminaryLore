@@ -46,7 +46,11 @@ decode.html可直接打开演示。
 
 Fork本项目直接使用仓库部署即可
 
-阿里云[函数计算 FC (aliyun.com)](https://fcnext.console.aliyun.com/applications/create)
+因为node版本原因 请在部署前手动build项目
+
+然后执行 `git add .next -f`在仓库中保存构建后的项目
+
+快速开始：[函数计算 FC ](https://fcnext.console.aliyun.com/applications/create)
 
 ##### 腾讯云函数Serverless
 
