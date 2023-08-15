@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[979],{7979:function(e){e.exports=JSON.parse('{"title":"首页","continue-viewing":"继续观看","collection":"收藏","no-continue-viewing":{"title":"暂无观看记录","message":"快去观看你喜欢的内容吧"},"no-collection":{"title":"暂无收藏","message":"快去收藏你喜欢的内容吧"}}')}}]);

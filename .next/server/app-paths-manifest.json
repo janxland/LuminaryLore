@@ -1,7 +1,0 @@
-{
-  "/extension/page": "app/extension/page.js",
-  "/detail/page": "app/detail/page.js",
-  "/page": "app/page.js",
-  "/search/page": "app/search/page.js",
-  "/settings/page": "app/settings/page.js"
-}
