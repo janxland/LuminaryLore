@@ -6,7 +6,8 @@
     "dev": "next dev -p 9000 -H 0.0.0.0",
     "build": "next build",
     "start": "next start -p 9000 -H 0.0.0.0",
-    "lint": "next lint"
+    "lint": "next lint",
+    "prod":"next build && next start -p 9000 -H 0.0.0.0"
   },
   "dependencies": {
     "@tanstack/react-query": "^4.0.5",
