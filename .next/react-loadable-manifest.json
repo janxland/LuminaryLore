@@ -1,14 +1,14 @@
 {
   "..\\components\\Player\\Bangumi.tsx -> dashjs": {
-    "id": 7357,
+    "id": "..\\components\\Player\\Bangumi.tsx -> dashjs",
     "files": [
-      "static/chunks/2b364f21.f7dd4da7496c50c5.js"
+      "static/chunks/_app-client_node_modules_dashjs_dist_dash_all_min_js.js"
     ]
   },
   "..\\components\\Player\\Bangumi.tsx -> flv.js": {
-    "id": 596,
+    "id": "..\\components\\Player\\Bangumi.tsx -> flv.js",
     "files": [
-      "static/chunks/5f1cbad2.11be6263a6149e88.js"
+      "static/chunks/_app-client_node_modules_flv_js_dist_flv_js.js"
     ]
   }
 }

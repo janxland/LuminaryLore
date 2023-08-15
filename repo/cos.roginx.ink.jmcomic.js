@@ -28,7 +28,7 @@ export default class extends Extension {
     "customOrder": 37,
     "enabled": true,
     "enabledExplore": true,
-    "exploreUrl": "总排行榜::\/albums?o=mv?page={{key}}\n月排行榜::\/albums?t=m&o=mv?page={{key}}\n周排行榜::\/albums?o=mv&t=w?page={{key}}\n日排行榜::\/albums?o=mv&t=t?page={{key}}\n最新A漫::\/albums?o=mr?page={{key}}\n同人::\/albums\/doujin?page={{key}}\n\n单行本::\/albums\/single?o=mr?page={{key}}\n短篇::\/albums\/short?page={{key}}\n其他::\/albums\/another?page={{key}}\n韩漫::\/albums\/hanman?page={{key}}\n美漫::\/albums\/meiman?page={{key}}\ncosplay::\/albums\/another\/sub\/cosplay?page={{key}}",
+    "exploreUrl": "总排行榜::\/albums?o=mv&page={{page}}\n月排行榜::\/albums?t=m&o=mv&page={{page}}\n周排行榜::\/albums?o=mv&t=w&page={{page}}\n日排行榜::\/albums?o=mv&t=t&page={{page}}\n最新A漫::\/albums?o=mr&page={{page}}\n同人::\/albums\/doujin&page={{page}}\n\n单行本::\/albums\/single?o=mr&page={{page}}\n短篇::\/albums\/short&page={{page}}\n其他::\/albums\/another&page={{page}}\n韩漫::\/albums\/hanman&page={{page}}\n美漫::\/albums\/meiman&page={{page}}\ncosplay::\/albums\/another\/sub\/cosplay&page={{page}}",
     "lastUpdateTime": 1651214216611,
     "respondTime": 180000,
     "ruleBookInfo": {
@@ -185,8 +185,9 @@ attr(doc,attrStr){
       const menuUrl = match[2].trim();
       menu[menuName] = menuUrl;
     }
+    let url = encodeURIComponent(this.jmcomic.bookSourceUrl+menu["最新A漫"].replace("{{page}}",page))
     const res = await this.request(
-      `/api/scrape?url=${this.jmcomic.bookSourceUrl}${menu["最新A漫"].replace("{{page}}",page)}`,
+      `/api/scrape?url=${url}`,
     );
     let doc = $(jQuery.parseHTML(res))
     let items = this.selector(doc,this.jmcomic.ruleExplore.bookList);
@@ -204,8 +205,9 @@ attr(doc,attrStr){
   }
 
   async search(kw, page) {
+    let url = encodeURIComponent(this.jmcomic.searchUrl.replace("{{key}}",kw).replace("{{page}}",page))
     const res = await this.request(
-      `/api/scrape?url=${this.jmcomic.searchUrl.replace("{{key}}",kw).replace("{{page}}",page)}`,
+      `/api/scrape?url=${url}`,
     );
     const manga = [];
     let doc = $(jQuery.parseHTML(res))

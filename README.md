@@ -1,13 +1,6 @@
-## JM天堂图片解密复原
-##### decode.html可直接打开演示。
-##### 具体过程在decodeImage()函数中
-### 已添加对禁漫天堂的扩展支持（包括图片解码）
-### 接下来对[源仓库](https://www.yckceo.com/)展开全面支持
-
-##### 完善源仓库计划，实现Web端聚合漫画
 <img align="right" width="300" src="./public/miru.png" alt="Miru 看板娘"/>
 
-# <img src="./public/logo.svg" width="100">
+# <img src="./public/logo.svg" width="100" />
 
 [![License](https://img.shields.io/github/license/miru-project/miru-next)](https://github.com/miru-project/miru-next/blob/main/LICENSE)
 [![Stars](https://img.shields.io/github/stars/miru-project/miru-next)](https://github.com/miru-project/miru-next/stargazers)
@@ -18,6 +11,18 @@
 ***支持、视频、漫画、小说扩展源的多功能在线播放器***
 
 [官方文档](https://miru.js.org) | [在线演示](https://miru.0u0.ren) | [TG 群组](https://t.me/MiruChat) | [TG 频道](https://t.me/MiruChannel)
+
+## 更新
+
+##### 👜JM天堂图片解密复原图片
+
+decode.html可直接打开演示。
+
+##### 🥽添加一些扩展（包括图片解码）
+
+##### 🧦接下来对[源仓库](https://www.yckceo.com/)进行部分适配
+
+##### 📦完善源仓库计划，实现Web端聚合漫画
 
 ## 特性
 
@@ -31,4 +36,18 @@
 
 ![image](https://user-images.githubusercontent.com/44718819/230914961-09c730d3-6ef2-4c16-8811-e225574d8b62.png)
 
+## 部署
 
+##### Vercel
+
+本仓库部署即可
+
+##### 阿里云 函数计算FC
+
+Fork本项目直接使用仓库部署即可
+
+阿里云[函数计算 FC (aliyun.com)](https://fcnext.console.aliyun.com/applications/create)
+
+##### 腾讯云函数Serverless
+
+待补充...
