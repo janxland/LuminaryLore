@@ -710,7 +710,7 @@ const MangaPlayer = (0,dist.observer)(()=>{
             decodeTopUrls[currentURL] = [
                 ...decodeUrls
             ];
-            if (decodeUrls.every((element, index)=>element.startsWith("data:"))) {
+            if (decodeUrls.every((element, index)=>element?.startsWith("data:"))) {
                 // clearInterval(currentInterval)
                 setDecodeUrls([
                     ...decodeUrls
@@ -738,7 +738,7 @@ const MangaPlayer = (0,dist.observer)(()=>{
             decodeImage(0, 0, undefined, true);
             clearInterval(awaitDownload);
             awaitDownload = setInterval(()=>{
-                if (decodeUrls.every((element, index)=>element.startsWith("data:"))) {
+                if (decodeUrls.every((element, index)=>element?.startsWith("data:"))) {
                     console.log("开始下载啦！");
                     extension.download([
                         ...decodeUrls
@@ -1159,6 +1159,8 @@ var link_default = /*#__PURE__*/__webpack_require__.n(next_link);
 var navigation = __webpack_require__(9483);
 // EXTERNAL MODULE: ./components/Logo.tsx
 var Logo = __webpack_require__(5706);
+// EXTERNAL MODULE: ./node_modules/notistack/index.js
+var notistack = __webpack_require__(9431);
 ;// CONCATENATED MODULE: ./components/Sidebar.tsx
 
 
@@ -1168,6 +1170,8 @@ var Logo = __webpack_require__(5706);
 
 
 
+
+let firstEnter = true;
 function Sidebar() {
     const path = (0,navigation.usePathname)();
     const { t  } = (0,i18n/* useTranslation */.$)("sidebar");
@@ -1195,13 +1199,25 @@ function Sidebar() {
     ];
     const baseClassNames = clsx_default()("flex-col w-20 h-20 lg:h-auto lg:w-auto lg:flex-row items-center cursor-pointer lg:mb-2 p-4 rounded-3xl flex ");
     const [Cheveron, setCheveron] = (0,react_.useState)(false);
+    const { enqueueSnackbar  } = (0,notistack.useSnackbar)();
+    if (firstEnter) enqueueSnackbar("欢迎来到Lumos，本站不预先添加扩展", {
+        variant: "info"
+    }), enqueueSnackbar("请自行到扩展里添加哦~", {
+        variant: "info"
+    }), enqueueSnackbar("推荐挂梯子访问~", {
+        variant: "info"
+    }), firstEnter = false;
     return /*#__PURE__*/ jsx_runtime_.jsx(jsx_runtime_.Fragment, {
         children: /*#__PURE__*/ (0,jsx_runtime_.jsxs)("div", {
             className: "fixed right-0 left-0 bottom-0 z-50 overflow-auto bg-slate-100 bg-opacity-80 p-2 backdrop-blur transition-all dark:bg-black dark:bg-opacity-80 dark:backdrop-blur lg:left-0 lg:top-0 lg:w-230px lg:p-5",
             children: [
                 /*#__PURE__*/ jsx_runtime_.jsx("div", {
                     className: "mb-6 ml-4 hidden lg:block",
-                    children: /*#__PURE__*/ jsx_runtime_.jsx(Logo/* default */.Z, {})
+                    children: /*#__PURE__*/ jsx_runtime_.jsx("a", {
+                        href: "https://www.roginx.ink",
+                        target: "_blank",
+                        children: /*#__PURE__*/ jsx_runtime_.jsx(Logo/* default */.Z, {})
+                    })
                 }),
                 /*#__PURE__*/ (0,jsx_runtime_.jsxs)("ul", {
                     className: "flex justify-center lg:block",
@@ -1251,7 +1267,7 @@ function Sidebar() {
                     ]
                 }),
                 /*#__PURE__*/ jsx_runtime_.jsx("img", {
-                    src: "https://mybox-1257251314.cos.ap-chengdu.myqcloud.com/pic-upload/code400X400X2.png",
+                    src: "https://mybox-1257251314.cos.ap-chengdu.myqcloud.com/pic-upload/code400x400.png",
                     className: clsx_default()("block", {
                         "h-0": !Cheveron
                     }),
@@ -1282,8 +1298,6 @@ function logMiruInfo() {
 var queryClient = __webpack_require__(8927);
 // EXTERNAL MODULE: ./node_modules/@tanstack/react-query/build/lib/QueryClientProvider.mjs
 var QueryClientProvider = __webpack_require__(8417);
-// EXTERNAL MODULE: ./node_modules/notistack/index.js
-var notistack = __webpack_require__(9431);
 ;// CONCATENATED MODULE: ./app/RootProvider.tsx
 /* __next_internal_client_entry_do_not_use__ default auto */ 
 

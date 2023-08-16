@@ -73,7 +73,7 @@ const MangaPlayer = observer(() => {
             decodeUrls[index] = newUrl;
             setDecodeUrls([...decodeUrls]);
             decodeTopUrls[currentURL] = [...decodeUrls];
-            if(decodeUrls.every((element, index) => element.startsWith("data:"))){
+            if(decodeUrls.every((element, index) => element?.startsWith("data:"))){
                 // clearInterval(currentInterval)
                 setDecodeUrls([...decodeUrls]);
                 console.log("解码完毕！",data);
@@ -97,7 +97,7 @@ const MangaPlayer = observer(() => {
             decodeImage(0,0,undefined,true);
             clearInterval(awaitDownload)
             awaitDownload = setInterval(()=>{
-                if(decodeUrls.every((element, index) => element.startsWith("data:"))){
+                if(decodeUrls.every((element, index) => element?.startsWith("data:"))){
                     console.log("开始下载啦！");
                     (extension as any).download([...decodeUrls],title);
                     console.log("下载完成啦！");

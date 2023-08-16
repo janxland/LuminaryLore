@@ -2,9 +2,12 @@
 import Logo from "@/components/Logo";
 import packageInfo from "../../package.json";
 import { useTranslation } from "@/app/i18n";
-
+import { useSnackbar } from "notistack";
+let firstEnter = true
 export default function AboutTab() {
     const { t } = useTranslation("settings");
+    const { enqueueSnackbar } = useSnackbar();
+    if(firstEnter) enqueueSnackbar("欢迎来到Lumos", { variant: "info" }) , firstEnter = false;
     return (
         <div className="prose dark:text-white">
             <Logo />

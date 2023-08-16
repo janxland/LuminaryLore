@@ -351,13 +351,21 @@ var app_i18n = __webpack_require__(5808);
 var Logo = __webpack_require__(5706);
 // EXTERNAL MODULE: ./package.json
 var package_0 = __webpack_require__(8099);
+// EXTERNAL MODULE: ./node_modules/notistack/index.js
+var notistack = __webpack_require__(9431);
 ;// CONCATENATED MODULE: ./app/settings/AboutTab.tsx
 /* __next_internal_client_entry_do_not_use__ default auto */ 
 
 
 
+
+let firstEnter = true;
 function AboutTab() {
     const { t  } = (0,app_i18n/* useTranslation */.$)("settings");
+    const { enqueueSnackbar  } = (0,notistack.useSnackbar)();
+    if (firstEnter) enqueueSnackbar("欢迎来到Lumos", {
+        variant: "info"
+    }), firstEnter = false;
     return /*#__PURE__*/ (0,jsx_runtime_.jsxs)("div", {
         className: "prose dark:text-white",
         children: [
@@ -431,8 +439,6 @@ var db = __webpack_require__(323);
 var lucide_react = __webpack_require__(4660);
 // EXTERNAL MODULE: ./node_modules/mobx-react-lite/dist/index.js
 var dist = __webpack_require__(6121);
-// EXTERNAL MODULE: ./node_modules/notistack/index.js
-var notistack = __webpack_require__(9431);
 // EXTERNAL MODULE: external "next/dist/compiled/react"
 var react_ = __webpack_require__(8038);
 // EXTERNAL MODULE: ./node_modules/umi-request/dist/index.js
