@@ -14,7 +14,7 @@ export default function AboutTab() {
             <p>
                 {t("about.open-source")}
                 <a
-                    href="https://github.com/miru-project/miru-next"
+                    href="https://github.com/janxland/LuminaryLore"
                     target="_blank"
                     rel="noreferrer"
                 >
@@ -31,6 +31,13 @@ export default function AboutTab() {
                     tachiyomi
                 </a>
             </p>
+            <p>✨支持页面样式、插件、仓库定制</p>
+            <p>🎃支持本地部署</p>
+            <p>🧵支持在云服务器部署</p>
+            <p><a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=983341575" target="_blank">点击联系我</a></p>
+            <a href="https://qr.alipay.com/fkx10350np9rne4xxo5zz80" target="_blank">
+                <img src="https://mybox-1257251314.cos.ap-chengdu.myqcloud.com/pic-upload/code1000X1000.png" width="300px" alt="赞赏一下吧~~~" />
+            </a>
         </div>
     );
 }

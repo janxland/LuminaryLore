@@ -5,10 +5,13 @@ import {
     LayoutGrid as IconExtension,
     Search as IconSearh,
     Settings as IconSettings,
+    ChevronDown,
+    ChevronUp
 } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import Logo from "./Logo";
+import { useState } from "react";
 
 export default function Sidebar() {
     const path = usePathname() as string;
@@ -38,7 +41,7 @@ export default function Sidebar() {
     const baseClassNames = clsx(
         "flex-col w-20 h-20 lg:h-auto lg:w-auto lg:flex-row items-center cursor-pointer lg:mb-2 p-4 rounded-3xl flex "
     );
-
+    const [Cheveron,setCheveron] = useState(false);
     return (
         <>
             <div className="fixed right-0 left-0 bottom-0 z-50 overflow-auto bg-slate-100 bg-opacity-80 p-2 backdrop-blur transition-all dark:bg-black dark:bg-opacity-80 dark:backdrop-blur lg:left-0 lg:top-0 lg:w-230px lg:p-5">
@@ -76,7 +79,37 @@ export default function Sidebar() {
                             </Link>
                         </li>
                     ))}
+                    <li onClick={()=>setCheveron(!Cheveron)}>
+                        <div
+                        className={clsx(
+                            baseClassNames,
+                            "hover:opacity-50 "
+                        )}>
+                            <ChevronUp 
+                                className={clsx(
+                                    "mb-1 lg:mr-2 lg:mb-0",
+                                    {"hidden":Cheveron}
+                                )}
+                                width={24}
+                            />
+                            <ChevronDown 
+                                className={clsx(
+                                    "mb-1 lg:mr-2 lg:mb-0",
+                                    {"hidden":!Cheveron},
+                                )}
+                                width={24}
+                            />
+                            <div className="text-sm lg:text-lg">
+                                展开
+                            </div>
+                        </div>
+                    </li>
                 </ul>
+                <img src="https://mybox-1257251314.cos.ap-chengdu.myqcloud.com/pic-upload/code400X400X2.png"  
+                    className={clsx(
+                        "block",
+                        {"h-0":!Cheveron}
+                    )} alt="" />
             </div>
         </>
     );

@@ -1167,6 +1167,7 @@ var Logo = __webpack_require__(5706);
 
 
 
+
 function Sidebar() {
     const path = (0,navigation.usePathname)();
     const { t  } = (0,i18n/* useTranslation */.$)("sidebar");
@@ -1193,6 +1194,7 @@ function Sidebar() {
         }
     ];
     const baseClassNames = clsx_default()("flex-col w-20 h-20 lg:h-auto lg:w-auto lg:flex-row items-center cursor-pointer lg:mb-2 p-4 rounded-3xl flex ");
+    const [Cheveron, setCheveron] = (0,react_.useState)(false);
     return /*#__PURE__*/ jsx_runtime_.jsx(jsx_runtime_.Fragment, {
         children: /*#__PURE__*/ (0,jsx_runtime_.jsxs)("div", {
             className: "fixed right-0 left-0 bottom-0 z-50 overflow-auto bg-slate-100 bg-opacity-80 p-2 backdrop-blur transition-all dark:bg-black dark:bg-opacity-80 dark:backdrop-blur lg:left-0 lg:top-0 lg:w-230px lg:p-5",
@@ -1201,26 +1203,59 @@ function Sidebar() {
                     className: "mb-6 ml-4 hidden lg:block",
                     children: /*#__PURE__*/ jsx_runtime_.jsx(Logo/* default */.Z, {})
                 }),
-                /*#__PURE__*/ jsx_runtime_.jsx("ul", {
+                /*#__PURE__*/ (0,jsx_runtime_.jsxs)("ul", {
                     className: "flex justify-center lg:block",
-                    children: menu.map((item, i)=>/*#__PURE__*/ jsx_runtime_.jsx("li", {
-                            children: /*#__PURE__*/ (0,jsx_runtime_.jsxs)((link_default()), {
-                                href: item.path,
-                                className: path === item.path ? clsx_default()(baseClassNames, "bg-black text-white ring-4 ring-gray-300 dark:bg-zinc-700 dark:text-white") : clsx_default()(baseClassNames, "hover:opacity-50"),
+                    children: [
+                        menu.map((item, i)=>/*#__PURE__*/ jsx_runtime_.jsx("li", {
+                                children: /*#__PURE__*/ (0,jsx_runtime_.jsxs)((link_default()), {
+                                    href: item.path,
+                                    className: path === item.path ? clsx_default()(baseClassNames, "bg-black text-white ring-4 ring-gray-300 dark:bg-zinc-700 dark:text-white") : clsx_default()(baseClassNames, "hover:opacity-50"),
+                                    children: [
+                                        /*#__PURE__*/ jsx_runtime_.jsx(item.icon, {
+                                            className: clsx_default()("mb-1 lg:mr-2 lg:mb-0", {
+                                                "text-white ": path === item.path
+                                            }, {}),
+                                            width: 24
+                                        }),
+                                        /*#__PURE__*/ jsx_runtime_.jsx("div", {
+                                            className: "text-sm lg:text-lg",
+                                            children: item.title
+                                        })
+                                    ]
+                                })
+                            }, i)),
+                        /*#__PURE__*/ jsx_runtime_.jsx("li", {
+                            onClick: ()=>setCheveron(!Cheveron),
+                            children: /*#__PURE__*/ (0,jsx_runtime_.jsxs)("div", {
+                                className: clsx_default()(baseClassNames, "hover:opacity-50 "),
                                 children: [
-                                    /*#__PURE__*/ jsx_runtime_.jsx(item.icon, {
+                                    /*#__PURE__*/ jsx_runtime_.jsx(lucide_react/* ChevronUp */.Kh3, {
                                         className: clsx_default()("mb-1 lg:mr-2 lg:mb-0", {
-                                            "text-white ": path === item.path
-                                        }, {}),
+                                            "hidden": Cheveron
+                                        }),
+                                        width: 24
+                                    }),
+                                    /*#__PURE__*/ jsx_runtime_.jsx(lucide_react/* ChevronDown */._ME, {
+                                        className: clsx_default()("mb-1 lg:mr-2 lg:mb-0", {
+                                            "hidden": !Cheveron
+                                        }),
                                         width: 24
                                     }),
                                     /*#__PURE__*/ jsx_runtime_.jsx("div", {
                                         className: "text-sm lg:text-lg",
-                                        children: item.title
+                                        children: "展开"
                                     })
                                 ]
                             })
-                        }, i))
+                        })
+                    ]
+                }),
+                /*#__PURE__*/ jsx_runtime_.jsx("img", {
+                    src: "https://mybox-1257251314.cos.ap-chengdu.myqcloud.com/pic-upload/code400X400X2.png",
+                    className: clsx_default()("block", {
+                        "h-0": !Cheveron
+                    }),
+                    alt: ""
                 })
             ]
         })
@@ -1322,10 +1357,10 @@ function useTranslation(ns, options = {}) {
 /* harmony export */   "Mj": () => (/* binding */ languages)
 /* harmony export */ });
 /* unused harmony export defaultNS */
-const fallbackLng = "en";
+const fallbackLng = "zh-CN";
 const languages = [
     fallbackLng,
-    "zh-CN"
+    "en"
 ];
 const defaultNS = "common";
 function getOptions(lng = fallbackLng, ns = defaultNS) {

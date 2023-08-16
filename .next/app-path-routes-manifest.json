@@ -1,7 +1,7 @@
 {
   "/detail/page": "/detail",
-  "/page": "/",
   "/extension/page": "/extension",
+  "/page": "/",
   "/search/page": "/search",
   "/settings/page": "/settings"
 }

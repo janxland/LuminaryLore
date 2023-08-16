@@ -373,7 +373,7 @@ function AboutTab() {
                 children: [
                     t("about.open-source"),
                     /*#__PURE__*/ jsx_runtime_.jsx("a", {
-                        href: "https://github.com/miru-project/miru-next",
+                        href: "https://github.com/janxland/LuminaryLore",
                         target: "_blank",
                         rel: "noreferrer",
                         children: "Github"
@@ -391,6 +391,31 @@ function AboutTab() {
                         children: "tachiyomi"
                     })
                 ]
+            }),
+            /*#__PURE__*/ jsx_runtime_.jsx("p", {
+                children: "✨支持页面样式、插件、仓库定制"
+            }),
+            /*#__PURE__*/ jsx_runtime_.jsx("p", {
+                children: "\uD83C\uDF83支持本地部署"
+            }),
+            /*#__PURE__*/ jsx_runtime_.jsx("p", {
+                children: "\uD83E\uDDF5支持在云服务器部署"
+            }),
+            /*#__PURE__*/ jsx_runtime_.jsx("p", {
+                children: /*#__PURE__*/ jsx_runtime_.jsx("a", {
+                    href: "tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=983341575",
+                    target: "_blank",
+                    children: "点击联系我"
+                })
+            }),
+            /*#__PURE__*/ jsx_runtime_.jsx("a", {
+                href: "https://qr.alipay.com/fkx10350np9rne4xxo5zz80",
+                target: "_blank",
+                children: /*#__PURE__*/ jsx_runtime_.jsx("img", {
+                    src: "https://mybox-1257251314.cos.ap-chengdu.myqcloud.com/pic-upload/code1000X1000.png",
+                    width: "300px",
+                    alt: "赞赏一下吧~~~"
+                })
             })
         ]
     });
