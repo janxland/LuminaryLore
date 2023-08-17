@@ -220,7 +220,7 @@ module.exports = require("zlib");
 
 /***/ }),
 
-/***/ 4795:
+/***/ 8432:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -372,7 +372,12 @@ var useInfiniteQuery = __webpack_require__(78);
 // EXTERNAL MODULE: ./node_modules/next/link.js
 var next_link = __webpack_require__(1621);
 var link_default = /*#__PURE__*/__webpack_require__.n(next_link);
+// EXTERNAL MODULE: ./node_modules/clsx/dist/clsx.js
+var clsx = __webpack_require__(4889);
+var clsx_default = /*#__PURE__*/__webpack_require__.n(clsx);
 ;// CONCATENATED MODULE: ./app/search/Result.tsx
+
+
 
 
 
@@ -387,7 +392,7 @@ function Result({ extension , kw  }) {
         "search",
         "common"
     ]);
-    const { data , isLoading , error , hasNextPage , fetchNextPage , isFetchingNextPage , isFetched  } = (0,useInfiniteQuery/* useInfiniteQuery */.N)({
+    const { data , isLoading , error , hasNextPage , fetchNextPage , isFetchingNextPage , isFetched , refetch  } = (0,useInfiniteQuery/* useInfiniteQuery */.N)({
         queryKey: [
             "getSearchItems",
             extension.package,
@@ -395,7 +400,7 @@ function Result({ extension , kw  }) {
         ],
         queryFn: ({ pageParam =1  })=>{
             if (!kw) {
-                return extension?.latest(pageParam);
+                return extension?.latest(pageParam, activeTab);
             }
             return extension?.search(kw, pageParam);
         },
@@ -410,11 +415,30 @@ function Result({ extension , kw  }) {
         },
         keepPreviousData: true
     });
+    const [activeTab, setActiveTab] = (0,react_.useState)("");
+    (0,react_.useEffect)(()=>{
+        // 在 activeTab 变化时触发重新请求数据
+        refetch();
+    }, [
+        activeTab,
+        refetch
+    ]); // 监听 activeTab 变化
+    let subTabs = extension?.tabList?.() && Object.keys(extension?.tabList?.()).map((tab)=>{
+        return /*#__PURE__*/ jsx_runtime_.jsx("button", {
+            onClick: ()=>{
+                setActiveTab(tab);
+            },
+            className: clsx_default()("mr-2 break-keep rounded-full border pl-3 pr-3 pt-2 pb-2 text-sm", `${activeTab === tab ? "bg-black text-white dark:bg-black" : "bg-white dark:bg-zinc-700"}`),
+            children: tab
+        }, tab);
+    });
     if (isLoading || !isFetched) {
-        return /*#__PURE__*/ jsx_runtime_.jsx(ItemGrid/* default.Grid */.Z.Grid, {
-            children: new Array(20).fill(0).map((_, i)=>/*#__PURE__*/ jsx_runtime_.jsx(SkeletonBlock/* default */.Z, {
-                    className: "h-60vw max-h-96 !rounded-lg md:h-30vw lg:h-20vw"
-                }, i))
+        return /*#__PURE__*/ jsx_runtime_.jsx(jsx_runtime_.Fragment, {
+            children: /*#__PURE__*/ jsx_runtime_.jsx(ItemGrid/* default.Grid */.Z.Grid, {
+                children: new Array(20).fill(0).map((_, i)=>/*#__PURE__*/ jsx_runtime_.jsx(SkeletonBlock/* default */.Z, {
+                        className: "h-60vw max-h-96 !rounded-lg md:h-30vw lg:h-20vw"
+                    }, i))
+            })
         });
     }
     // 如果没有数据
@@ -429,6 +453,9 @@ function Result({ extension , kw  }) {
     }
     return /*#__PURE__*/ (0,jsx_runtime_.jsxs)("div", {
         children: [
+            /*#__PURE__*/ jsx_runtime_.jsx("div", {
+                children: subTabs
+            }),
             /*#__PURE__*/ jsx_runtime_.jsx(ItemGrid/* default.Grid */.Z.Grid, {
                 children: data.pages && data.pages.map((value)=>value.map((value, index)=>/*#__PURE__*/ jsx_runtime_.jsx(LazyElement/* default */.Z, {
                             placeholder: /*#__PURE__*/ jsx_runtime_.jsx("div", {
@@ -543,7 +570,7 @@ function Search({ extension , kw  }) {
         ],
         queryFn: ()=>{
             if (!kw) {
-                return extension.latest(1);
+                return extension.latest(1, undefined);
             }
             return extension.search(kw, 1);
         }
@@ -911,7 +938,7 @@ const { __esModule, $$typeof } = proxy;
 var __webpack_require__ = require("../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [690,105,741,149,811], () => (__webpack_exec__(4795)));
+var __webpack_exports__ = __webpack_require__.X(0, [690,105,741,149,811], () => (__webpack_exec__(8432)));
 module.exports = __webpack_exports__;
 
 })();

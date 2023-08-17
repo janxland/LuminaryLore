@@ -1186,6 +1186,14 @@ let firstEnter = true;
 function Sidebar() {
     const path = (0,navigation.usePathname)();
     const { t  } = (0,i18n/* useTranslation */.$)("sidebar");
+    const { enqueueSnackbar  } = (0,notistack.useSnackbar)();
+    if (firstEnter) enqueueSnackbar("欢迎来到Lumos，本站不预先添加扩展", {
+        variant: "info"
+    }), enqueueSnackbar("请自行到扩展里添加哦~", {
+        variant: "info"
+    }), enqueueSnackbar("推荐挂梯子访问~", {
+        variant: "info"
+    }), firstEnter = false;
     const menu = [
         {
             title: t("home"),
@@ -1210,14 +1218,6 @@ function Sidebar() {
     ];
     const baseClassNames = clsx_default()("flex-col w-20 h-20 lg:h-auto lg:w-auto lg:flex-row items-center cursor-pointer lg:mb-2 p-4 rounded-3xl flex ");
     const [Cheveron, setCheveron] = (0,react_.useState)(false);
-    const { enqueueSnackbar  } = (0,notistack.useSnackbar)();
-    if (firstEnter) enqueueSnackbar("欢迎来到Lumos，本站不预先添加扩展", {
-        variant: "info"
-    }), enqueueSnackbar("请自行到扩展里添加哦~", {
-        variant: "info"
-    }), enqueueSnackbar("推荐挂梯子访问~", {
-        variant: "info"
-    }), firstEnter = false;
     return /*#__PURE__*/ jsx_runtime_.jsx(jsx_runtime_.Fragment, {
         children: /*#__PURE__*/ (0,jsx_runtime_.jsxs)("div", {
             className: "fixed right-0 left-0 bottom-0 z-50 overflow-auto bg-slate-100 bg-opacity-80 p-2 backdrop-blur transition-all dark:bg-black dark:bg-opacity-80 dark:backdrop-blur lg:left-0 lg:top-0 lg:w-230px lg:p-5",
@@ -1914,7 +1914,7 @@ class Extension {
         return (0,dist/* default */.ZP)(miruProxy, options);
     }
     // 最近更新
-    latest(page) {
+    latest(page, tab) {
         throw new Error("not implement");
     }
     // 搜索
