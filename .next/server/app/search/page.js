@@ -457,24 +457,34 @@ function Result({ extension , kw  }) {
                 children: subTabs
             }),
             /*#__PURE__*/ jsx_runtime_.jsx(ItemGrid/* default.Grid */.Z.Grid, {
-                children: data.pages && data.pages.map((value)=>value.map((value, index)=>/*#__PURE__*/ jsx_runtime_.jsx(LazyElement/* default */.Z, {
+                children: data.pages && data.pages.map((value)=>value.map((value, index)=>/*#__PURE__*/ (0,jsx_runtime_.jsxs)(LazyElement/* default */.Z, {
                             placeholder: /*#__PURE__*/ jsx_runtime_.jsx("div", {
                                 className: "h-32"
                             }),
-                            children: /*#__PURE__*/ jsx_runtime_.jsx((link_default()), {
-                                href: {
-                                    pathname: "/detail",
-                                    query: {
-                                        pkg: extension.package,
-                                        url: value.url,
-                                        cover: value.cover
-                                    }
-                                },
-                                className: "h-full w-full",
-                                children: /*#__PURE__*/ jsx_runtime_.jsx(ItemGrid/* default.Fragment */.Z.Fragment, {
-                                    itemData: value
+                            children: [
+                                !extension.postOnlyOne && /*#__PURE__*/ jsx_runtime_.jsx((link_default()), {
+                                    href: {
+                                        pathname: "/detail",
+                                        query: {
+                                            pkg: extension.package,
+                                            url: value.url,
+                                            cover: value.cover
+                                        }
+                                    },
+                                    className: "h-full w-full",
+                                    children: /*#__PURE__*/ jsx_runtime_.jsx(ItemGrid/* default.Fragment */.Z.Fragment, {
+                                        itemData: value
+                                    })
+                                }),
+                                extension.postOnlyOne && /*#__PURE__*/ jsx_runtime_.jsx("div", {
+                                    onClick: ()=>{
+                                        window.open(value.url, "_blank", "noopener,noreferrer");
+                                    },
+                                    children: /*#__PURE__*/ jsx_runtime_.jsx(ItemGrid/* default.Fragment */.Z.Fragment, {
+                                        itemData: value
+                                    })
                                 })
-                            })
+                            ]
                         }, index)))
             }),
             data.pages[data.pages.length - 1].length === 0 && /*#__PURE__*/ jsx_runtime_.jsx("div", {
@@ -864,51 +874,6 @@ module.exports = createProxy("E:\\project\\xuexi\\LuminaryLore\\app\\search\\pag
 
 /***/ }),
 
-/***/ 6163:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => (/* binding */ BaseMargin)
-/* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3146);
-/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(115);
-/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(clsx__WEBPACK_IMPORTED_MODULE_1__);
-
-
-function BaseMargin(props) {
-    return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
-        ...props,
-        className: clsx__WEBPACK_IMPORTED_MODULE_1___default()("pl-5 pt-5 pr-5 md:pl-10 md:pr-10 md:pt-10", props.className),
-        children: props.children
-    });
-}
-
-
-/***/ }),
-
-/***/ 3112:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => (/* binding */ SkeletonBlock)
-/* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3146);
-/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(115);
-/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(clsx__WEBPACK_IMPORTED_MODULE_1__);
-
-
-function SkeletonBlock(props) {
-    return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
-        ...props,
-        className: clsx__WEBPACK_IMPORTED_MODULE_1___default()("h-full w-full animate-pulse rounded-xl bg-slate-200 dark:bg-zinc-700", props.className)
-    });
-}
-
-
-/***/ }),
-
 /***/ 8071:
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
@@ -938,7 +903,7 @@ const { __esModule, $$typeof } = proxy;
 var __webpack_require__ = require("../../webpack-runtime.js");
 __webpack_require__.C(exports);
 var __webpack_exec__ = (moduleId) => (__webpack_require__(__webpack_require__.s = moduleId))
-var __webpack_exports__ = __webpack_require__.X(0, [690,105,741,149,811], () => (__webpack_exec__(8432)));
+var __webpack_exports__ = __webpack_require__.X(0, [690,105,971,679,149,811], () => (__webpack_exec__(8432)));
 module.exports = __webpack_exports__;
 
 })();

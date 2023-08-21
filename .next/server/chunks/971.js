@@ -1,5 +1,5 @@
-exports.id = 741;
-exports.ids = [741];
+exports.id = 971;
+exports.ids = [971];
 exports.modules = {
 
 /***/ 329:
@@ -8,7 +8,7 @@ exports.modules = {
 var map = {
 	"./en/common.json": [
 		8679,
-		679
+		444
 	],
 	"./en/detail.json": [
 		2829,
@@ -88,17 +88,6 @@ function webpackAsyncContext(req) {
 webpackAsyncContext.keys = () => (Object.keys(map));
 webpackAsyncContext.id = 329;
 module.exports = webpackAsyncContext;
-
-/***/ }),
-
-/***/ 2345:
-/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
-
-Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 9222, 23));
-Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 8301, 23));
-Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 3751, 23));
-Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 4765, 23));
-Promise.resolve(/* import() eager */).then(__webpack_require__.t.bind(__webpack_require__, 5192, 23))
 
 /***/ }),
 

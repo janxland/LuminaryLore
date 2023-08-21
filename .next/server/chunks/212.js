@@ -1,6 +1,6 @@
 "use strict";
-exports.id = 158;
-exports.ids = [158];
+exports.id = 212;
+exports.ids = [212];
 exports.modules = {
 
 /***/ 3460:
@@ -70,49 +70,6 @@ function Input(props) {
     return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("input", {
         ...props,
         className: clsx__WEBPACK_IMPORTED_MODULE_1___default()("rounded-3xl border pl-4 pr-4 pt-2 pb-2 text-sm dark:bg-black dark:text-white", props.className)
-    });
-}
-
-
-/***/ }),
-
-/***/ 6163:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => (/* binding */ BaseMargin)
-/* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3146);
-/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(115);
-/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(clsx__WEBPACK_IMPORTED_MODULE_1__);
-
-
-function BaseMargin(props) {
-    return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
-        ...props,
-        className: clsx__WEBPACK_IMPORTED_MODULE_1___default()("pl-5 pt-5 pr-5 md:pl-10 md:pr-10 md:pt-10", props.className),
-        children: props.children
-    });
-}
-
-
-/***/ }),
-
-/***/ 3112:
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Z": () => (/* binding */ SkeletonBlock)
-/* harmony export */ });
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(3146);
-/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(115);
-/* harmony import */ var clsx__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(clsx__WEBPACK_IMPORTED_MODULE_1__);
-
-
-function SkeletonBlock(props) {
-    return /*#__PURE__*/ react_jsx_runtime__WEBPACK_IMPORTED_MODULE_0__.jsx("div", {
-        ...props,
-        className: clsx__WEBPACK_IMPORTED_MODULE_1___default()("h-full w-full animate-pulse rounded-xl bg-slate-200 dark:bg-zinc-700", props.className)
     });
 }
 

@@ -175,8 +175,7 @@ attr(doc,attrStr){
       defaultValue: "false",
     });
   }
-
-  async latest(page) {
+  tabList(){
     const menuRegex = /([^:]+)::([^:\n]+)/g;
     let menu = {};
     let match;
@@ -185,7 +184,19 @@ attr(doc,attrStr){
       const menuUrl = match[2].trim();
       menu[menuName] = menuUrl;
     }
-    let url = encodeURIComponent(this.jmcomic.bookSourceUrl+menu["最新A漫"].replace("{{page}}",page))
+    return menu;
+  }
+  async latest(page , tab = "最新A漫") {
+    console.log("正在浏览",tab);
+    const menuRegex = /([^:]+)::([^:\n]+)/g;
+    let menu = {};
+    let match;
+    while ((match = menuRegex.exec(this.jmcomic.exploreUrl)) !== null) {
+      const menuName = match[1].trim();
+      const menuUrl = match[2].trim();
+      menu[menuName] = menuUrl;
+    }
+    let url = encodeURIComponent(this.jmcomic.bookSourceUrl+menu[tab===""?"最新A漫":tab].replace("{{page}}",page))
     const res = await this.request(
       `/api/scrape?url=${url}`,
     );

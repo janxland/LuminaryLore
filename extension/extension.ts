@@ -14,6 +14,7 @@ import Artplayer from "artplayer";
 import request from "umi-request";
 
 export class Extension {
+    [x: string]: any;
     package = "";
     proxyUrl = "";
     webSite = "";
@@ -43,7 +44,7 @@ export class Extension {
     }
 
     // 最近更新
-    latest(page: number): ListItem[] {
+    latest(page: number,tab: string | undefined): ListItem[] {
         throw new Error("not implement");
     }
 

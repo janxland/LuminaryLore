@@ -1,27 +1,27 @@
 // ==MiruExtension==
-// @name         韩漫库
+// @name         yande.re
 // @version      v0.0.2
 // @author       ROGINX
 // @lang         zh-cn
 // @license      MIT
-// @package      cos.roginx.ink.comic
+// @package      cos.roginx.ink.yande
 // @type         manga
-// @icon         https://se8.us/template/pc/default/images/pic_nav_logo.png?v=0504b75
-// @webSite      https://se8.us/
+// @icon         https://assets.yande.re/assets/logo_small-418e8d5ec0229f274edebe4af43b01aa29ed83b715991ba14bb41ba06b5b57b5.png
+// @webSite      https://yande.re/
 // ==/MiruExtension==
 
 export default class extends Extension {
     jmcomic = {
         "bookSourceComment": "",
-        "bookSourceGroup": "🔞版主",
-        "bookSourceName": "韩漫库",
+        "bookSourceGroup": "ROGINX",
+        "bookSourceName": "腾讯视频",
         "bookSourceType": 2,
-        "bookSourceUrl": "https:\/\/se8.us\/",
+        "bookSourceUrl": "https://yande.re/",
         "customOrder": -2085984643,
         "enabled": true,
         "enabledCookieJar": false,
         "enabledExplore": true,
-        "exploreUrl": "精品::https:\/\/se8.us\/index.php\/category\/quality\/39\/page\/{{page}}\n热门::https:\/\/se8.us\/index.php\/category\/quality\/40\/page\/{{page}}\n签约::https:\/\/se8.us\/index.php\/category\/quality\/333\/page\/{{page}}",
+        "exploreUrl": "热门::https://yande.re/post?page={{page}}\n周排行榜::https://yande.re/post/popular_recent?period=1w\n月排行榜::https://yande.re/post/popular_recent?period=1m\n年排行榜::https://yande.re/post/popular_recent?period=1y",
         "lastUpdateTime": 1688004621532,
         "loginUrl": "https:\/\/se8.us\/",
         "respondTime": 36274,
@@ -38,27 +38,30 @@ export default class extends Extension {
             "imageStyle": "FULL"
         },
         "ruleExplore": {
-            "bookList": ".common-comic-item",
-            "bookUrl": ".cover@href",
-            "coverUrl": "class.cover@img@data-original",
+            "bookList": "id.post-list-posts@tag.li",
+            "bookUrl": "tag.a.0@href",
+            "coverUrl": "tag.img@src",
+            "originUrl":".largeimg@href",
             "intro": "",
-            "lastChapter": ".h1@text",
-            "name": ".comic__title@text"
+            "lastChapter": ".banner-corner-wrap@text",
+            "name": "tag.a.0@href"
         },
         "ruleReview": {},
         "ruleSearch": {
-            "bookList": ".common-comic-item",
-            "bookUrl": ".cover@href",
-            "coverUrl": ".cover@img@data-original",
-            "lastChapter": ".h1@text",
-            "name": ".comic-feature@text"
+            "bookList": "id.post-list-posts@tag.li",
+            "bookUrl": "tag.a.0@href",
+            "coverUrl": "tag.img@src",
+            "originUrl":".largeimg@href",
+            "intro": "",
+            "lastChapter": ".banner-corner-wrap@text",
+            "name": "tag.a.0@href"
         },
         "ruleToc": {
             "chapterList": ".j-chapter-link",
             "chapterName": "text",
             "chapterUrl": "href"
         },
-        "searchUrl": "\/index.php\/search?key={{key}}",
+        "searchUrl": "https://yande.re/post?tags={{key}}&page={{page}}",
         "weight": 0
     }
   handleQuery(queryStr,option){
@@ -98,12 +101,13 @@ export default class extends Extension {
                         selector = selector + `:eq(${parm[3]})`
                     }
                 }
-                if(parm[2]=="id"){
+                if(parm[1]=="id"){
                     selector = selector + `[id*='${parm[2]}']`
                 }
             }
             selector = selector + " ";
           }
+          console.log(selector);
           elements.push(doc.find(selector))
     }
     return elements
@@ -136,7 +140,7 @@ export default class extends Extension {
                         selector = selector + `:eq(${parm[3]})`
                     }
                 }
-                if(parm[2]=="id"){
+                if(parm[1]=="id"){
                     selector = selector + `[id*='${parm[2]}']`
                 }
             }
@@ -177,8 +181,18 @@ export default class extends Extension {
         defaultValue: "false",
       });
     }
-  
-    async latest(page) {
+    tabList(){
+        const menuRegex =  /(.+?)::(.+)/g;
+        let menu = {};
+        let match;
+        while ((match = menuRegex.exec(this.jmcomic.exploreUrl)) !== null) {
+          const menuName = match[1].trim();
+          const menuUrl = match[2].trim();
+          menu[menuName] = menuUrl;
+        }
+        return menu;
+    }
+    async latest(page,tag = "热门") {
         const regex = /(.+?)::(.+)/g;
         const matches = {};
         let match;
@@ -188,56 +202,57 @@ export default class extends Extension {
             const value = match[2].trim();
             matches[key] = value;
         }
-                
+        const res = await this.request(
+            `/api/scrape?url=${encodeURIComponent(matches[tag!=""?tag:"热门"].replace("{{page}}",page))}`,
+        );
+        let doc = $(jQuery.parseHTML(res))
+        let items = this.selector(doc,this.jmcomic.ruleExplore.bookList);
         
-      console.log(matches);
-      const res = await this.request(
-        `/api/scrape?url=${matches["热门"].replace("{{page}}",page)}`,
-      );
-      let doc = $(jQuery.parseHTML(res))
-      let items = this.selector(doc,this.jmcomic.ruleExplore.bookList);
-     
-      const manga = [];
-      items[0].toArray().forEach((element,index) => {
-        let url =this.attr($(element),this.jmcomic.ruleExplore.bookUrl)
-        let [replacedString, emptyString] = this.handleQuery(this.jmcomic.ruleExplore.coverUrl, {url:url});
-        replacedString = replacedString.replace(emptyString,"")
-        manga.push({
-          title: this.attr($(element),this.jmcomic.ruleExplore.name),
-          cover: replacedString + this.attr($(element),emptyString),
-          update: this.attr($(element),this.jmcomic.ruleExplore.bookUrl),
-          url: url,
+        const manga = [];
+        items[0].toArray().forEach((element,index) => {
+            let url =this.attr($(element),this.jmcomic.ruleExplore.bookUrl)
+            let [replacedString, emptyString] = this.handleQuery(this.jmcomic.ruleExplore.coverUrl, {url:url});
+            replacedString = replacedString.replace(emptyString,"")
+            let cover = this.attr($(element),emptyString)
+            manga.push({
+                title: this.attr($(element),this.jmcomic.ruleExplore.name),
+                cover: replacedString + Array.isArray(cover)?cover[0]:cover,
+                update: this.attr($(element),this.jmcomic.ruleExplore.lastChapter),
+                url: this.attr($(element),this.jmcomic.ruleExplore.originUrl),
+            });
         });
-      });
       return manga;
     }
   
     async search(kw, page) {
-      let url = this.jmcomic.searchUrl.startsWith("http") ? url : this.jmcomic.bookSourceUrl + this.jmcomic.searchUrl;
+      let url = this.jmcomic.searchUrl;
       const res = await this.request(
-        `/api/scrape?url=${url.replace("{{key}}",kw).replace("{{page}}",page)}`,
+        `/api/scrape?url=${decodeURIComponent(url.replace("{{key}}",kw).replace("{{page}}",page))}`,
       );
       const manga = [];
       let doc = $(jQuery.parseHTML(res))
       let items = this.selector(doc,this.jmcomic.ruleSearch.bookList);
-      items[0].toArray().forEach((element) => {
+      items[0].toArray().forEach((element,index) => {
         let url =this.attr($(element),this.jmcomic.ruleExplore.bookUrl)
-        let [replacedString, emptyString] = this.handleQuery(this.jmcomic.ruleSearch.coverUrl, {url:url});
+        let [replacedString, emptyString] = this.handleQuery(this.jmcomic.ruleExplore.coverUrl, {url:url});
         replacedString = replacedString.replace(emptyString,"")
+        let cover = this.attr($(element),emptyString)
         manga.push({
-          title: this.attr($(element),this.jmcomic.ruleSearch.name),
-          cover: replacedString + this.attr($(element),emptyString),
-          update: this.attr($(element),this.jmcomic.ruleSearch.lastChapter),
-          url: this.attr($(element),this.jmcomic.ruleSearch.bookUrl),
+            title: this.attr($(element),this.jmcomic.ruleExplore.name),
+            cover: replacedString + Array.isArray(cover)?cover[0]:cover,
+            update: this.attr($(element),this.jmcomic.ruleExplore.lastChapter),
+            url: this.attr($(element),this.jmcomic.ruleExplore.originUrl),
         });
-      });
+    });
       return manga;
     }
   
     async detail(url) {
-      const res = await this.request(
-        `/api/scrape?url=${url.startsWith("http") ? url : this.jmcomic.bookSourceUrl + url}`,
-      );
+        const newurl = new URL(url.startsWith("http") ? url : this.jmcomic.bookSourceUrl + url);
+        const path = newurl.pathname;
+        const res = await this.request(
+            `${path}`,
+        );
       let item = $(jQuery.parseHTML(res))
       let chapterItems = this.selector(item,this.jmcomic.ruleToc.chapterList);
       let episodes = [];
@@ -278,5 +293,6 @@ export default class extends Extension {
         urls,
       };
     }
+    postOnlyOne = true;
   }
   

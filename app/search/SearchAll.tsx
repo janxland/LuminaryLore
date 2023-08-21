@@ -54,7 +54,7 @@ function Search({ extension, kw }: { extension: Extension, kw: string }) {
             queryKey: ["SearchAll", extension, kw],
             queryFn: () => {
                 if (!kw) {
-                    return extension.latest(1);
+                    return extension.latest(1,undefined);
                 }
                 return extension.search(kw, 1);
             }

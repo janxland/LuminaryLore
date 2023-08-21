@@ -4,6 +4,7 @@ const nextConfig = {
     experimental: {
         appDir: true,
     },
+    assetPrefix: 'https://cos.roginx.ink/www/miru/',
     async rewrites() {
         return [
             {

@@ -7,7 +7,8 @@ import { Extension } from "@/extension/extension";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import Link from "next/link";
 import { useTranslation } from "@/app/i18n";
-
+import { JSXElementConstructor, PromiseLikeOfReactNode, ReactElement, ReactFragment, useEffect, useState } from "react";
+import clsx from "clsx";
 export default function Result(
     {
         extension,
@@ -24,12 +25,13 @@ export default function Result(
         hasNextPage,
         fetchNextPage,
         isFetchingNextPage,
-        isFetched
+        isFetched,
+        refetch
     } = useInfiniteQuery({
         queryKey: ["getSearchItems", extension.package, kw],
         queryFn: ({ pageParam = 1 }) => {
             if (!kw) {
-                return extension?.latest(pageParam);
+                return extension?.latest(pageParam,activeTab);
             }
             return extension?.search(kw, pageParam);
         },
@@ -44,17 +46,37 @@ export default function Result(
         },
         keepPreviousData: true
     });
-
+    const [activeTab, setActiveTab]  = useState("");
+    useEffect(() => {
+        // 在 activeTab 变化时触发重新请求数据
+        refetch();
+    }, [activeTab, refetch]); // 监听 activeTab 变化
+    let subTabs = extension?.tabList?.() && Object.keys(extension?.tabList?.()).map(tab => {
+        return (
+          <button
+            key={tab}
+            onClick={() => {setActiveTab(tab)}}
+            className={clsx(
+              "mr-2 break-keep rounded-full border pl-3 pr-3 pt-2 pb-2 text-sm",
+              `${activeTab === tab ? "bg-black text-white dark:bg-black" : "bg-white dark:bg-zinc-700"}`
+            )}
+          >
+            {tab}
+          </button>
+        );
+      });
     if (isLoading || !isFetched) {
         return (
-            <ItemGrid.Grid>
-                {new Array(20).fill(0).map((_, i) => (
-                    <SkeletonBlock
-                        key={i}
-                        className="h-60vw max-h-96 !rounded-lg md:h-30vw lg:h-20vw"
-                    />
-                ))}
-            </ItemGrid.Grid>
+            <>
+                <ItemGrid.Grid>
+                    {new Array(20).fill(0).map((_, i) => (
+                        <SkeletonBlock
+                            key={i}
+                            className="h-60vw max-h-96 !rounded-lg md:h-30vw lg:h-20vw"
+                        />
+                    ))}
+                </ItemGrid.Grid>
+            </>
         );
     }
 
@@ -70,6 +92,9 @@ export default function Result(
 
     return (
         <div>
+            <div >
+                {subTabs}
+            </div>
             <ItemGrid.Grid>
                 {data.pages &&
                     data.pages.map((value) =>
@@ -78,7 +103,8 @@ export default function Result(
                                 key={index}
                                 placeholder={<div className="h-32"></div>}
                             >
-                                <Link
+                                {
+                                !extension.postOnlyOne && <Link 
                                     href={{
                                         pathname: "/detail",
                                         query: {
@@ -93,6 +119,16 @@ export default function Result(
                                         itemData={value}
                                     ></ItemGrid.Fragment>
                                 </Link>
+                                }
+                                {extension.postOnlyOne &&
+                                <div
+                                    onClick={() => {window.open(value.url, '_blank', 'noopener,noreferrer')}}
+                                >
+                                    <ItemGrid.Fragment
+                                        itemData={value}
+                                    ></ItemGrid.Fragment>
+                                </div>
+                                }
                             </LazyElement>
                         ))
                     )}
