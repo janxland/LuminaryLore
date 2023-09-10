@@ -2959,7 +2959,7 @@ async function RootLayout({ children  }) {
                         content: "width=device-width, initial-scale=1"
                     }),
                     /*#__PURE__*/ jsx_runtime.jsx("script", {
-                        src: "https://hm.baidu.com/hm.js?ed8c9edd6ef38359f7d14669ceff12710",
+                        src: "https://hm.baidu.com/hm.js?ed8c9edd6ef38359f7d14669ceff1271",
                         async: true
                     }),
                     /*#__PURE__*/ jsx_runtime.jsx("script", {
