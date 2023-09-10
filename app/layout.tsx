@@ -19,11 +19,11 @@ export default async function RootLayout({
                     name="viewport"
                     content="width=device-width, initial-scale=1"
                 />
+                 <script src="https://hm.baidu.com/hm.js?ed8c9edd6ef38359f7d14669ceff12710" async />
 
                 <script src='https://cdn.staticfile.org/jquery/3.7.0/jquery.min.js' async  />
                 <script src='https://cdn.staticfile.org/jszip/3.10.1/jszip.min.js' async  />
                 <script src='https://cdn.staticfile.org/crypto-js/4.1.1/crypto-js.min.js' async  />
-                <script data-id="101422401" src="//static.getclicky.com/js" async/>
             </head>
             <body className="dark:bg-black dark:bg-opacity-80 dark:text-white">
                 <RootProvider>

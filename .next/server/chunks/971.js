@@ -2959,6 +2959,10 @@ async function RootLayout({ children  }) {
                         content: "width=device-width, initial-scale=1"
                     }),
                     /*#__PURE__*/ jsx_runtime.jsx("script", {
+                        src: "https://hm.baidu.com/hm.js?ed8c9edd6ef38359f7d14669ceff12710",
+                        async: true
+                    }),
+                    /*#__PURE__*/ jsx_runtime.jsx("script", {
                         src: "https://cdn.staticfile.org/jquery/3.7.0/jquery.min.js",
                         async: true
                     }),
@@ -2968,11 +2972,6 @@ async function RootLayout({ children  }) {
                     }),
                     /*#__PURE__*/ jsx_runtime.jsx("script", {
                         src: "https://cdn.staticfile.org/crypto-js/4.1.1/crypto-js.min.js",
-                        async: true
-                    }),
-                    /*#__PURE__*/ jsx_runtime.jsx("script", {
-                        "data-id": "101422401",
-                        src: "//static.getclicky.com/js",
                         async: true
                     })
                 ]
